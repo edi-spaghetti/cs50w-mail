@@ -35,7 +35,6 @@ function send_email() {
     const subject = document.querySelector('#compose-subject').value;
     const body = document.querySelector('#compose-body').value;
 
-    // TODO: validation
     console.log(`sender: ${sender}`);
     console.log(`recipients: ${recipients}`);
     console.log(`subject: ${subject}`);
@@ -52,6 +51,29 @@ function send_email() {
     .then(response => response.json())
     .then(result => {
         console.log(result);
+        if (result.error) {
+
+            // change border colour
+            recipients_div = document.querySelector('#compose-recipients');
+            recipients_div.setAttribute('data-invalid', 'true');
+            recipients_div.parentNode.setAttribute('data-invalid', 'true');
+
+            // pop-up warning
+            let warning = document.querySelector('#compose-recipients ~ span');
+            if (warning === null) {
+                warning = document.createElement('span');
+            }
+            warning.setAttribute('class', 'error_message');
+            warning.innerHTML = result.error;
+
+            // insert warning after input box
+            recipients_div.parentNode.insertBefore(
+                warning, recipients_div.nextSibling
+            );
+        }
+        else {
+
+        }
     });
 
     return false;
