@@ -2,6 +2,10 @@ textarea {
     min-height: 400px;
 }
 
+#emails-view-title {
+    text-transform: capitalize;
+}
+
 /* ERRORS */
 
 [data-invalid = "true"] {

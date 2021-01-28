@@ -86,11 +86,65 @@ function send_email() {
 }
 
 function load_mailbox(mailbox) {
-  
+
+        const emails_items_div = document.querySelector('#emails-view-items');
+        // clear out the container if there are emails there previously
+        if (emails_items_div.childElementCount) {
+            while (emails_items_div.lastElementChild) {
+                emails_items_div.removeChild(
+                    emails_items_div.lastElementChild
+                );
+            }
+        }
+
     // Show the mailbox and hide other views
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector('#compose-view').style.display = 'none';
 
     // Show the mailbox name
-    document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+    const title = document.querySelector('#emails-view-title')
+    title.innerHTML = mailbox;
+
+    // Get the mailbox contents
+    fetch(`/emails/${mailbox}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(result => {
+
+        // create a table element
+        var table = document.createElement('table');
+        table.setAttribute('class', 'table');
+        emails_items_div.appendChild(table);
+
+        // add headers
+        var header = document.createElement('thead');
+        table.appendChild(header);
+
+        var header_row = document.createElement('tr');
+        header.appendChild(header_row);
+
+        ['From', 'Subject', 'Time'].forEach(heading => {
+            var header_cell = document.createElement('th');
+            header_cell.setAttribute('scope', 'col');
+            header_cell.innerHTML = heading;
+            header_row.appendChild(header_cell);
+        });
+
+        result.forEach(data => {
+
+            // add cells
+            var item_body = document.createElement('tbody');
+            table.appendChild(item_body);
+
+            var item_row = document.createElement('tr');
+            item_body.appendChild(item_row);
+
+            ['sender', 'subject', 'timestamp'].forEach(key => {
+                var data_cell = document.createElement('td');
+                data_cell.innerHTML = data[key];
+                item_row.appendChild(data_cell);
+            });
+        })
+    })
 }
