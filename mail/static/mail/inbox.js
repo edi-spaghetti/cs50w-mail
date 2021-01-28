@@ -50,8 +50,9 @@ function send_email() {
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result);
         if (result.error) {
+
+            console.log(`got errors: ${result.error}`);
 
             // change border colour
             recipients_div = document.querySelector('#compose-recipients');
@@ -71,8 +72,13 @@ function send_email() {
                 warning, recipients_div.nextSibling
             );
         }
+        else if (result.message) {
+            console.log(`success: ${result.message}`);
+            load_mailbox('sent');
+        }
         else {
-
+            console.log('Unexpected result:');
+            console.log(result);
         }
     });
 
