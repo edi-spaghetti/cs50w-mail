@@ -181,7 +181,7 @@ function view_email(data, mailbox) {
 
     // add a title to page to separate buttons from everything else
     var title = document.querySelector('#email-detail-title')
-    title.innerHTML = 'Email'
+    title.innerHTML = 'email'
 
     // Show the email detail and hide other views
     document.querySelector('#emails-view').style.display = 'none';
@@ -218,21 +218,29 @@ function view_email(data, mailbox) {
         body.appendChild(row);
 
         let data_label = document.createElement('td');
+		data_label.setAttribute('class', 'detail-item-label');
         data_label.innerHTML = escape_html(key);
         row.appendChild(data_label);
 
         let data_cell = document.createElement('td');
+		data_cell.setAttribute('class', 'detail-item-value')
 
         // handle data by type
         if (data[key].constructor === Array) {
+
+			// create a flex container for list items
+			let list_container = document.createElement('div');
+			list_container.setAttribute('class', 'd-flex flex-row');
+			data_cell.appendChild(list_container);
+
             data[key].forEach(value => {
 
                 // create an inner div for each item in the list
                 let inner_item = document.createElement('div');
                 inner_item.setAttribute('class', 'detail-list-value');
                 inner_item.innerHTML = escape_html(value);
-                // add it to the cell
-                data_cell.appendChild(inner_item);
+                // add it to the container
+                list_container.appendChild(inner_item);
             })
         } else {
             data_cell.innerHTML = escape_html(data[key]);

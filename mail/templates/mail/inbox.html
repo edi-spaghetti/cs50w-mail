@@ -23,6 +23,9 @@
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
+            <div class="d-flex flex-row-reverse compose-submit-container">
+                <button type="submit" class="btn btn-primary compose-submit-btn">Submit</button>
+            </div>
             <div class="form-group">
                 From: <input disabled id="compose-sender" class="form-control" value="{{ request.user.email }}">
             </div>
@@ -33,7 +36,9 @@
                 <input class="form-control" id="compose-subject" placeholder="Subject">
             </div>
             <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit" class="btn btn-primary"/>
+            <div class="d-flex flex-row-reverse compose-submit-container">
+                <button type="submit" class="btn btn-primary compose-submit-btn">Submit</button>
+            </div>
         </form>
     </div>
 

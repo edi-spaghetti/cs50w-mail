@@ -2,11 +2,13 @@ textarea {
     min-height: 400px;
 }
 
-#emails-view-title {
+/* EMAILS VIEW */
+
+#emails-view-title, #email-detail-title {
     text-transform: capitalize;
 }
 
-tr {
+#emails-view-items tr {
     cursor: pointer;
 }
 
@@ -20,6 +22,37 @@ tr {
 
 #emails-item-list tr:hover {
     background-color: #f0f8ff;
+}
+
+/* DETAILS VIEW */
+
+#detail-view-toolbar {
+	padding-bottom: 15px;
+}
+
+#detail-view-toolbar button {
+	margin-right: 15px;
+}
+
+.detail-item-label {
+	text-transform: capitalize;
+	font-weight: 600;
+}
+
+.detail-list-value:not(:last-child):after {
+	content: ", ";
+	white-space: pre;
+}
+
+/* COMPOSE VIEW */
+
+.compose-submit-container {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.compose-submit-btn {
+	margin-left: 15px;
 }
 
 /* ERRORS */
