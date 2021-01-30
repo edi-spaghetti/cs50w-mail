@@ -129,14 +129,17 @@ function load_mailbox(mailbox) {
             header_row.appendChild(header_cell);
         });
 
-        result.forEach(data => {
+        // add cells
+        var item_body = document.createElement('tbody');
+        item_body.setAttribute('id', 'emails-item-list')
+        table.appendChild(item_body);
 
-            // add cells
-            var item_body = document.createElement('tbody');
-            table.appendChild(item_body);
+        for (var i = 0; i < result.length; i++) {
+            var data = result[i];
 
             var item_row = document.createElement('tr');
             item_row.setAttribute('data-read', `${data.read}`);
+            item_row.setAttribute('id', `email-item-${i}`)
             item_body.appendChild(item_row);
 
             ['sender', 'subject', 'timestamp'].forEach(key => {
@@ -144,6 +147,26 @@ function load_mailbox(mailbox) {
                 data_cell.innerHTML = data[key];
                 item_row.appendChild(data_cell);
             });
-        })
+        }
+
+        var rows =  document.querySelectorAll('tr[data-read]')
+        for (var i = 0; i < rows.length; i++) {
+            // note to self: use let to avoid variable hoisting
+            let data = result[i];
+            rows[i].onclick = function() { view_email(data); };
+        }
     })
+}
+
+function view_email(data) {
+
+    // mark the email as read if not already
+    if (!data.read) {
+        console.log('mark as unread');
+        // TODO
+    }
+
+    // load the email detail page
+    console.log('load detail page')
+    // TODO
 }

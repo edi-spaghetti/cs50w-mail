@@ -6,8 +6,20 @@ textarea {
     text-transform: capitalize;
 }
 
-tr[data-read = "false"] {
+tr {
+    cursor: pointer;
+}
+
+#emails-item-list tr[data-read = "false"] {
     background-color: #ebebeb;
+}
+
+#emails-item-list tr[data-read = "true"] {
+    background-color: white;
+}
+
+#emails-item-list tr:hover {
+    background-color: #f0f8ff;
 }
 
 /* ERRORS */
