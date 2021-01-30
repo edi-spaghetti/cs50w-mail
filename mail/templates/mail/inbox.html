@@ -11,6 +11,7 @@
     <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
     <hr>
 
+    <!-- Mailboxes -->
     <div id="emails-view">
         <h3 id="emails-view-title"></h3>
         <div class="container" id="emails-view-items">
@@ -18,6 +19,7 @@
         </div>
     </div>
 
+    <!-- Create Outgoing Mail -->
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
@@ -34,6 +36,15 @@
             <input type="submit" class="btn btn-primary"/>
         </form>
     </div>
+
+    <!-- Email Detail -->
+    <div id="email-detail-view">
+        <h3 id="email-detail-title"></h3>
+        <div class="container" id="detail-view-item">
+            <!-- Details -->
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block script %}

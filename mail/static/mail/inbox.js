@@ -19,6 +19,7 @@ function compose_email() {
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
+    document.querySelector('#email-detail-view').style.display = 'none';
 
     // Clear out composition fields
     document.querySelector('#compose-recipients').value = '';
@@ -87,19 +88,14 @@ function send_email() {
 
 function load_mailbox(mailbox) {
 
-        const emails_items_div = document.querySelector('#emails-view-items');
-        // clear out the container if there are emails there previously
-        if (emails_items_div.childElementCount) {
-            while (emails_items_div.lastElementChild) {
-                emails_items_div.removeChild(
-                    emails_items_div.lastElementChild
-                );
-            }
-        }
+    const emails_items_div = document.querySelector('#emails-view-items');
+    // clear out the container if there are emails there previously
+    commit_filicide(emails_items_div);
 
     // Show the mailbox and hide other views
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector('#compose-view').style.display = 'none';
+    document.querySelector('#email-detail-view').style.display = 'none';
 
     // Show the mailbox name
     const title = document.querySelector('#emails-view-title')
@@ -160,6 +156,19 @@ function load_mailbox(mailbox) {
 
 function view_email(data) {
 
+    // remove existing email detail, if any
+    const detail_view = document.querySelector('#detail-view-item')
+    commit_filicide(detail_view)
+
+    // add a title to page to separate buttons from everything else
+    var title = document.querySelector('#email-detail-title')
+    title.innerHTML = 'Email'
+
+    // Show the email detail and hide other views
+    document.querySelector('#emails-view').style.display = 'none';
+    document.querySelector('#compose-view').style.display = 'none';
+    document.querySelector('#email-detail-view').style.display = 'block';
+
     // mark the email as read if not already
     if (!data.read) {
         fetch(`/emails/${data.id}`, {
@@ -176,6 +185,68 @@ function view_email(data) {
     }
 
     // load the email detail page
-    console.log('load detail page')
-    // TODO
+    var table = document.createElement('table');
+    table.setAttribute('class', 'table');
+    detail_view.appendChild(table);
+
+    // add email details into body
+    var body = document.createElement('tbody');
+    table.appendChild(body);
+
+    ['sender', 'recipients', 'subject', 'timestamp', 'body'].forEach(key => {
+
+        let row = document.createElement('tr');
+        body.appendChild(row);
+
+        let data_label = document.createElement('td');
+        data_label.innerHTML = escape_html(key);
+        row.appendChild(data_label);
+
+        let data_cell = document.createElement('td');
+
+        // handle data by type
+        if (data[key].constructor === Array) {
+            data[key].forEach(value => {
+
+                // create an inner div for each item in the list
+                let inner_item = document.createElement('div');
+                inner_item.setAttribute('class', 'detail-list-value');
+                inner_item.innerHTML = escape_html(value);
+                // add it to the cell
+                data_cell.appendChild(inner_item);
+            })
+        } else {
+            data_cell.innerHTML = escape_html(data[key]);
+        }
+
+        row.appendChild(data_cell);
+    })
+
 }
+
+
+// removes all children of provided element
+function commit_filicide(element) {
+
+    if (!(element === null)) {
+        while (element.lastElementChild) {
+            element.removeChild(
+                element.lastElementChild
+            );
+        }
+    } else {
+        console.log('attempted filicide on null')
+    }
+}
+
+// escapes unsafe html characters in email subject and body so they are
+// displayed as plain text instead of evaluated as html. From SO:
+// https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
+function escape_html(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
