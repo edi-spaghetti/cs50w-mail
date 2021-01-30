@@ -307,9 +307,13 @@ function commit_filicide(element) {
 // https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
 function escape_html(unsafe) {
     return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
+         .replaceAll('&', '&amp;')
+         .replaceAll('<', '&lt;')
+         .replaceAll('>', '&gt;')
+         .replaceAll('"', '&quot;')
+         .replaceAll("'", '&#039;')
+         // replace line breaks last so they get evaluated as html
+         // NOTE: even through textarea uses \r\n for line breaks, django
+         //       converts this to a single \n
+         .replaceAll('\n', '<br>');
  }
