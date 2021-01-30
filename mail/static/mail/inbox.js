@@ -149,12 +149,31 @@ function load_mailbox(mailbox) {
         for (var i = 0; i < rows.length; i++) {
             // note to self: use let to avoid variable hoisting
             let data = result[i];
-            rows[i].onclick = function() { view_email(data); };
+            rows[i].onclick = function() { view_email(data, mailbox); };
         }
     })
 }
 
-function view_email(data) {
+function view_email(data, mailbox) {
+
+    // Set up archiving button
+	const archive_btn = document.querySelector('#toggle-archive');
+	if (mailbox === 'inbox' || mailbox === 'archive') {
+		archive_btn.style.display = 'block';
+	} else {
+		archive_btn.style.display = 'none';
+	}
+
+	archive_btn.onclick = function() { toggle_archive(this, data) };
+
+	// ensure button is enabled, in case disabled from previous click
+	archive_btn.disabled = false;
+	// set the button text appropriate to current archive status
+	if (data.archived) {
+		archive_btn.innerHTML = 'Restore';
+	} else {
+		archive_btn.innerHTML = 'Archive'
+	}
 
     // remove existing email detail, if any
     const detail_view = document.querySelector('#detail-view-item')
@@ -224,6 +243,26 @@ function view_email(data) {
 
 }
 
+
+function toggle_archive(btn, data) {
+
+	// disable the button to prevent repeat clicks if api responds slowly
+	btn.disabled = true;
+
+	fetch(`/emails/${data.id}`, {
+		method: 'PUT',
+		body: JSON.stringify({
+			archived: !data.archived
+		})
+	})
+    .then(response => { if (!(response.status === 204)) {
+	    // email put requests don't return a body message so just log
+	    // if something goes wrong (i.e. not a 204 status)
+	    console.log(response)
+	} else {
+		load_mailbox('inbox');
+	}});
+}
 
 // removes all children of provided element
 function commit_filicide(element) {
