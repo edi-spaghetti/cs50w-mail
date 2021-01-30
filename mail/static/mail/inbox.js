@@ -106,9 +106,7 @@ function load_mailbox(mailbox) {
     title.innerHTML = mailbox;
 
     // Get the mailbox contents
-    fetch(`/emails/${mailbox}`, {
-        method: 'GET'
-    })
+    fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(result => {
 
