@@ -175,6 +175,10 @@ function view_email(data, mailbox) {
 		archive_btn.innerHTML = 'Archive'
 	}
 
+	// Set up reply button
+	const reply_btn = document.querySelector('#email-reply');
+	reply_btn.onclick = function() { compose_email(); };
+
     // remove existing email detail, if any
     const detail_view = document.querySelector('#detail-view-item')
     commit_filicide(detail_view)
