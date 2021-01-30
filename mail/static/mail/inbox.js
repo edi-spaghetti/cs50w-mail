@@ -35,7 +35,7 @@ function compose_email(data) {
 	    else {
 		    document.querySelector('#compose-subject').value = `Re: ${data.subject}`;
 	    }
-	    document.querySelector('#compose-body').value = '';
+	    document.querySelector('#compose-body').value = `\r\n\r\nOn ${data.timestamp} ${data.sender} wrote:\r\n\r\n${data.body}`;
 	}
 }
 
