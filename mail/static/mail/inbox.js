@@ -29,7 +29,12 @@ function compose_email(data) {
 	} else {
 		// Pre-fill composition form
 		document.querySelector('#compose-recipients').value = data.recipients.join(', ');
-	    document.querySelector('#compose-subject').value = '';
+	    if (data.subject.startsWith('Re: ')) {
+		    document.querySelector('#compose-subject').value = data.subject;
+	    }
+	    else {
+		    document.querySelector('#compose-subject').value = `Re: ${data.subject}`;
+	    }
 	    document.querySelector('#compose-body').value = '';
 	}
 }
