@@ -6,6 +6,10 @@ textarea {
     text-transform: capitalize;
 }
 
+tr[data-read = "false"] {
+    background-color: #ebebeb;
+}
+
 /* ERRORS */
 
 [data-invalid = "true"] {

@@ -136,6 +136,7 @@ function load_mailbox(mailbox) {
             table.appendChild(item_body);
 
             var item_row = document.createElement('tr');
+            item_row.setAttribute('data-read', `${data.read}`);
             item_body.appendChild(item_row);
 
             ['sender', 'subject', 'timestamp'].forEach(key => {
