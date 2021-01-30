@@ -162,8 +162,17 @@ function view_email(data) {
 
     // mark the email as read if not already
     if (!data.read) {
-        console.log('mark as unread');
-        // TODO
+        fetch(`/emails/${data.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                read: true
+            })
+        })
+        .then(response => { if (!(response.status === 204)) {
+            // email put requests don't return a body message so just log
+            // if something goes wrong (i.e. not a 204 status)
+            console.log(response)
+        }});
     }
 
     // load the email detail page
