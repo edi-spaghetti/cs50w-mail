@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
     document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
     document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-    document.querySelector('#compose').addEventListener('click', compose_email);
+    document.querySelector('#compose').addEventListener('click', () => compose_email());
 
     // By default, load the inbox
     load_mailbox('inbox');
@@ -14,17 +14,24 @@ document.addEventListener('DOMContentLoaded', function() {
     compose_form.onsubmit = send_email;
 });
 
-function compose_email() {
+function compose_email(data) {
 
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
     document.querySelector('#email-detail-view').style.display = 'none';
 
-    // Clear out composition fields
-    document.querySelector('#compose-recipients').value = '';
-    document.querySelector('#compose-subject').value = '';
-    document.querySelector('#compose-body').value = '';
+	if (data === undefined) {
+	    // Clear out composition fields
+	    document.querySelector('#compose-recipients').value = '';
+	    document.querySelector('#compose-subject').value = '';
+	    document.querySelector('#compose-body').value = '';
+	} else {
+		// Pre-fill composition form
+		document.querySelector('#compose-recipients').value = data.recipients.join(', ');
+	    document.querySelector('#compose-subject').value = '';
+	    document.querySelector('#compose-body').value = '';
+	}
 }
 
 function send_email() {
@@ -177,7 +184,7 @@ function view_email(data, mailbox) {
 
 	// Set up reply button
 	const reply_btn = document.querySelector('#email-reply');
-	reply_btn.onclick = function() { compose_email(); };
+	reply_btn.onclick = function() { compose_email(data); };
 
     // remove existing email detail, if any
     const detail_view = document.querySelector('#detail-view-item')
