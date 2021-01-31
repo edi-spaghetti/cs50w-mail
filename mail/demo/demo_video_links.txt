@@ -1,0 +1,15 @@
+Edited on Kapwing: https://kapwi.ng/c/tAFH8S5S
+Uploaded to Youtube: https://youtu.be/zlPkUaWFXOk
+
+0:00:05 Send Mail (left screen)
+0:00:20 Send Mail (error highlighting - left screen)
+0:00:45 Send Email (multiple recipients - left screen)
+0:00:03 Mailbox (Inbox - left screen)
+0:00:15 Mailbox (Sent - left screen)
+0:00:25 Mailbox (Archive - right screen)
+0:00:20 View Email (Inbox - right screen)
+0:00:30 View Email (Archive - right screen)
+0:01:00 View Email (group email - both screens)
+0:00:20 Archive (right screen)
+0:00:30 Unarchive (right screen)
+0:00:40 Reply (right screen)
