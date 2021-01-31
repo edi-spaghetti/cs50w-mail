@@ -21,6 +21,15 @@ function compose_email(data) {
     document.querySelector('#compose-view').style.display = 'block';
     document.querySelector('#email-detail-view').style.display = 'none';
 
+	// set recipients to valid styling on new compose
+	var recipients_div =  document.querySelector('#compose-recipients')
+	recipients_div.setAttribute('data-invalid', 'false');
+    recipients_div.parentNode.setAttribute('data-invalid', 'false');
+	var warning = document.querySelector('#compose-recipients ~ span')
+	if (!(warning === null)) {
+		warning.innerHTML = '';
+	}
+
 	if (data === undefined) {
 	    // Clear out composition fields
 	    document.querySelector('#compose-recipients').value = '';
@@ -28,7 +37,7 @@ function compose_email(data) {
 	    document.querySelector('#compose-body').value = '';
 	} else {
 		// Pre-fill composition form
-		document.querySelector('#compose-recipients').value = data.recipients.join(', ');
+		recipients_div.value = data.recipients.join(', ');
 	    if (data.subject.startsWith('Re: ')) {
 		    document.querySelector('#compose-subject').value = data.subject;
 	    }
